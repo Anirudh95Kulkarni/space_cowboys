@@ -1,0 +1,38 @@
+{
+  "Rice": {
+    "Temperature (°C)": "20–35",
+    "Annual Rainfall (mm)": "1000–2000",
+    "Soil Type": "Clayey to loamy",
+    "Soil pH": "5.5–6.5",
+    "Sunlight (hrs/day)": "4–6",
+    "Humidity (%)": "70–80",
+    "Altitude (m)": "0–1500"
+  },
+  "Wheat": {
+    "Temperature (°C)": "10–25",
+    "Annual Rainfall (mm)": "300–900",
+    "Soil Type": "Loamy to clay loam",
+    "Soil pH": "6.0–7.5",
+    "Sunlight (hrs/day)": "6–8",
+    "Humidity (%)": "50–60",
+    "Altitude (m)": "0–3000"
+  },
+  "Maize": {
+    "Temperature (°C)": "18–27",
+    "Annual Rainfall (mm)": "500–1000",
+    "Soil Type": "Well-drained loamy soil",
+    "Soil pH": "5.8–7.0",
+    "Sunlight (hrs/day)": "6–8",
+    "Humidity (%)": "60–70",
+    "Altitude (m)": "0–2700"
+  },
+  "Soybean": {
+    "Temperature (°C)": "20–30",
+    "Annual Rainfall (mm)": "500–900",
+    "Soil Type": "Loamy",
+    "Soil pH": "6.0–7.0",
+    "Sunlight (hrs/day)": "5–7",
+    "Humidity (%)": "60–70",
+    "Altitude (m)": "0–1500"
+  }
+}

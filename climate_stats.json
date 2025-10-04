@@ -1,0 +1,38 @@
+[
+  {
+    "Parameter":"Temperature (\u00b0C)",
+    "Min":19.8,
+    "Avg":20.4,
+    "Max":30.9
+  },
+  {
+    "Parameter":"Annual Rainfall (mm)",
+    "Min":11.7,
+    "Avg":24.0,
+    "Max":27.7
+  },
+  {
+    "Parameter":"Soil pH",
+    "Min":24.3,
+    "Avg":22.3,
+    "Max":36.2
+  },
+  {
+    "Parameter":"Sunlight (hrs\/day)",
+    "Min":17.2,
+    "Avg":28.4,
+    "Max":26.0
+  },
+  {
+    "Parameter":"Humidity (%)",
+    "Min":23.1,
+    "Avg":22.1,
+    "Max":38.3
+  },
+  {
+    "Parameter":"Altitude (m)",
+    "Min":13.2,
+    "Avg":27.4,
+    "Max":39.3
+  }
+]
