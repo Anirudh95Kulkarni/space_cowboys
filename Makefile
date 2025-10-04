@@ -9,6 +9,8 @@ setup:
 	$(VENV_DIR)/bin/pip install h5py
 	$(VENV_DIR)/bin/pip install xarray
 	$(VENV_DIR)/bin/pip install pandas
+	$(VENV_DIR)/bin/pip install	numpy
+	$(VENV_DIR)/bin/pip install json
 	echo "source $(VENV_DIR)/bin/activate"
 
 	
