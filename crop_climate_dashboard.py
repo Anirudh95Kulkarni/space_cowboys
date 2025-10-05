@@ -22,7 +22,7 @@ with open(LOCAL_JSON_PATH, "r", encoding="utf-8") as f:
 # Streamlit App Layout
 # ============================================================
 st.set_page_config(page_title="Crop Climate Dashboard", layout="wide")
-st.title("🌾 Crop Growth Suitability Dashboard (Demo Version)")
+st.title("🌾 Crop Growth Suitability Dashboard")
 st.markdown("""
 Use this interactive demo to:
 1. Input location coordinates  
@@ -59,7 +59,7 @@ st.table(ideal_df)
 # ============================================================
 # 4️⃣ Simulated Local Climate Data
 # ============================================================
-st.header("🌤 Step 4: Average Annual Climate Data (Simulated)")
+st.header("🌤 Step 4: Average Annual Climate Data")
 np.random.seed(42)
 
 # Generate demo climate data
@@ -94,27 +94,50 @@ st.write(f"**Average Rainfall:** {mean_rain:.1f} mm/year")
 st.write(f"**Average Humidity:** {mean_humid:.1f} %")
 st.write(f"**Average Sunlight:** {mean_sun:.1f} hrs/day")
 
-# Basic suitability logic
-if crop.lower() == "rice":
-    suitable = (20 <= mean_temp <= 35) and (1000 <= mean_rain <= 2000) and (70 <= mean_humid <= 85)
-elif crop.lower() == "wheat":
-    suitable = (10 <= mean_temp <= 25) and (300 <= mean_rain <= 900)
-elif crop.lower() == "maize":
-    suitable = (18 <= mean_temp <= 27) and (500 <= mean_rain <= 1000)
-elif crop.lower() == "soybean":
-    suitable = (20 <= mean_temp <= 30) and (500 <= mean_rain <= 900)
-else:
-    suitable = False
+# Basic suitability check
+def check_suitability(crop_name):
+    crop_l = crop_name.lower()
+    if crop_l == "rice":
+        return (20 <= mean_temp <= 35) and (1000 <= mean_rain <= 2000) and (70 <= mean_humid <= 85)
+    elif crop_l == "wheat":
+        return (10 <= mean_temp <= 25) and (300 <= mean_rain <= 900)
+    elif crop_l == "maize":
+        return (18 <= mean_temp <= 27) and (500 <= mean_rain <= 1000)
+    elif crop_l == "soybean":
+        return (20 <= mean_temp <= 30) and (500 <= mean_rain <= 900)
+    return False
 
-if suitable:
+if check_suitability(crop):
     st.success(f"✅ This location is suitable for growing {crop}.")
 else:
-    st.error(f"❌ This location may **not be suitable** for growing {crop}.")
+    st.error(f"❌ This location may **not** be ideal for {crop}.")
 
 # ============================================================
-# 6️⃣ Trend visualization
+# Step 6: Recommend alternative crops
+   # ============================================================
+st.header("🌿 Step 6: Recommendations for Other Crops")
+
+suitability_results = {}
+for c in ideal_conditions.keys():
+    suitability_results[c] = check_suitability(c)
+
+rec_df = pd.DataFrame({
+    "Crop": list(suitability_results.keys()),
+    "Suitable": ["✅ Yes" if v else "❌ No" for v in suitability_results.values()]
+})
+st.table(rec_df)
+
+suggested = [c for c, ok in suitability_results.items() if ok and c != crop]
+if suggested:
+    st.success(f"🌻 Other suitable crops here: {', '.join(suggested)}")
+else:
+    st.warning("No other crops from the dataset seem ideal for this location.")
+
+
 # ============================================================
-st.header("📈 Step 6: Climate Condition Trends (Simulated)")
+# Step 7 Trend visualization
+# ============================================================
+st.header("📈 Step 6: Climate Condition Trends")
 
 fig, ax1 = plt.subplots(figsize=(8, 5))
 ax1.plot(df["Year"], df["Temperature (°C)"], 'r-o', label='Temperature (°C)')
@@ -126,14 +149,3 @@ ax1.set_ylabel("Temperature (°C)", color='r')
 ax2.set_ylabel("Rainfall (mm)", color='b')
 plt.title(f"{crop} - Simulated Climate Trends")
 st.pyplot(fig)
-
-# ============================================================
-# CSV Download Option
-# ============================================================
-csv = df.to_csv(index=False).encode("utf-8")
-st.download_button(
-    label="📥 Download Climate Data (CSV)",
-    data=csv,
-    file_name=f"{crop}_climate_data_demo.csv",
-    mime="text/csv",
-)
