@@ -2,10 +2,11 @@
 
 ## Setup
 Run the command from command line.
-´make setup´
+
+`make setup`
 
 ## Run 
-´make run´
+`make run`
 
 ## Dashboard
-´make dash´
+`make dash` 
