@@ -21,8 +21,8 @@ with open(LOCAL_JSON_PATH, "r", encoding="utf-8") as f:
 # ============================================================
 # Streamlit App Layout
 # ============================================================
-st.set_page_config(page_title="Crop Climate Dashboard", layout="wide")
-st.title("🌾 Crop Growth Suitability Dashboard")
+st.set_page_config(page_title="Crop Buddy Dashboard", layout="wide")
+st.title("🌾 Crop Buddy Dashboard")
 st.markdown("""
 Use this interactive demo to:
 1. Input location coordinates  
@@ -32,6 +32,17 @@ Use this interactive demo to:
 5. Get a recommendation on whether the crop is suitable  
 6. See trend visualization
 """)
+
+st.markdown("""
+    <style>
+        /* Increase font size inside success and warning boxes */
+        div.stAlert p {
+            font-size: 22px !important;
+            font-weight: 600 !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # ============================================================
 # 1️⃣ Input for location
@@ -52,14 +63,14 @@ crop = st.selectbox("Select Crop", list(ideal_conditions.keys()))
 # ============================================================
 # 3️⃣ Display ideal conditions
 # ============================================================
-st.header(f"🌾 Step 3: Ideal Conditions for {crop}")
+st.header(f"🌾 Ideal Conditions for {crop}")
 ideal_df = pd.DataFrame(list(ideal_conditions[crop].items()), columns=["Parameter", "Ideal Range"])
 st.table(ideal_df)
 
 # ============================================================
 # 4️⃣ Simulated Local Climate Data
 # ============================================================
-st.header("🌤 Step 4: Average Annual Climate Data")
+st.header("🌤 Average Annual Climate Data")
 np.random.seed(42)
 
 # Generate demo climate data
@@ -82,17 +93,12 @@ st.dataframe(df)
 # ============================================================
 # 5️⃣ Recommendation
 # ============================================================
-st.header("🧭 Step 5: Crop Suitability Recommendation")
+st.header("🧭 Crop Suitability Recommendation")
 
 mean_temp = df["Temperature (°C)"].mean()
 mean_rain = df["Rainfall (mm)"].mean()
 mean_humid = df["Humidity (%)"].mean()
 mean_sun = df["Sunlight (hrs/day)"].mean()
-
-st.write(f"**Average Temperature:** {mean_temp:.1f} °C")
-st.write(f"**Average Rainfall:** {mean_rain:.1f} mm/year")
-st.write(f"**Average Humidity:** {mean_humid:.1f} %")
-st.write(f"**Average Sunlight:** {mean_sun:.1f} hrs/day")
 
 # Basic suitability check
 def check_suitability(crop_name):
@@ -110,29 +116,35 @@ def check_suitability(crop_name):
 if check_suitability(crop):
     st.success(f"✅ This location is suitable for growing {crop}.")
 else:
-    st.error(f"❌ This location may **not** be ideal for {crop}.")
+    st.warning(f"❌ This location may **not** be ideal for {crop}.")
+
+st.write(f"**Average Temperature:** {mean_temp:.1f} °C")
+st.write(f"**Average Rainfall:** {mean_rain:.1f} mm/year")
+st.write(f"**Average Humidity:** {mean_humid:.1f} %")
+st.write(f"**Average Sunlight:** {mean_sun:.1f} hrs/day")
+
 
 # ============================================================
 # Step 6: Recommend alternative crops
    # ============================================================
-st.header("🌿 Step 6: Recommendations for Other Crops")
+st.header("🌿 Recommendations for Other Crops")
 
 suitability_results = {}
 for c in ideal_conditions.keys():
     suitability_results[c] = check_suitability(c)
 
+
 rec_df = pd.DataFrame({
     "Crop": list(suitability_results.keys()),
     "Suitable": ["✅ Yes" if v else "❌ No" for v in suitability_results.values()]
 })
-st.table(rec_df)
+#st.table(rec_df)
 
 suggested = [c for c, ok in suitability_results.items() if ok and c != crop]
 if suggested:
     st.success(f"🌻 Other suitable crops here: {', '.join(suggested)}")
 else:
-    st.warning("No other crops from the dataset seem ideal for this location.")
-
+    st.warning("⚠️ No other crops from the dataset seem ideal for this location.")
 
 # ============================================================
 # Step 7 Trend visualization
