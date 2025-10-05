@@ -1,0 +1,20 @@
+[
+    {
+        "crop":"Rice",
+        "Tideal": 280,
+        "Pideal": 800,
+        "CO_ideal": 80
+    },
+    {
+        "crop": "mango",
+        "Tideal": 330,
+        "Pideal": 900,
+        "CO_ideal": 100
+    },
+    {
+        "crop": "maize",
+        "Tideal": 230,
+        "Pideal": 700,
+        "CO_ideal": 90
+    }
+]
