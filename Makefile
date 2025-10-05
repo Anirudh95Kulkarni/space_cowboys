@@ -1,6 +1,7 @@
 VENV_DIR := venv
 PYTHON:= /usr/local/bin/python3.12
 VENV_PYTHON:= venv/bin/python3.12
+VENV_STREAM_LIT:= venv/bin/streamlit
 
 setup:
 	$(PYTHON) -m venv $(VENV_DIR)
@@ -10,7 +11,8 @@ setup:
 	$(VENV_DIR)/bin/pip install xarray
 	$(VENV_DIR)/bin/pip install pandas
 	$(VENV_DIR)/bin/pip install	numpy
-	$(VENV_DIR)/bin/pip install json
+	$(VENV_DIR)/bin/pip install streamlit
+	$(VENV_DIR)/bin/pip install matplotlib
 	echo "source $(VENV_DIR)/bin/activate"
 
 	
@@ -20,8 +22,8 @@ version_check:
 run:
 	$(VENV_PYTHON) fetch_data.py
 
-run2:
-	$(VENV_PYTHON) fetch_2.py
+dash:
+	$(VENV_STREAM_LIT) run crop_climate_dashboard.py
 
 clean:
 	rm -rf $(VENV_DIR)
